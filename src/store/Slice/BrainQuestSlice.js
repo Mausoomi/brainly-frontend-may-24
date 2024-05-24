@@ -60,6 +60,7 @@ const BrainQuestSlice = createSlice({
       .addCase(Update_Copy_brainQuest.rejected, (state) => {
         state.loading = false;
       })
+      
       .addCase(Get_Copy_brainQuest.pending, (state) => {
         state.loading = true;
       })

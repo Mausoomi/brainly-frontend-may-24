@@ -1,27 +1,124 @@
 import React, { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import BookImg from "../../Assets/Images/Book.png";
+import EndSciImg from "../../Assets/Images/SciEnd.jpeg";
+import historyEndImg from "../../Assets/Images/historyEnd.jpeg";
+import AdvEndImg from "../../Assets/Images/advEndImg (1).jpeg";
+import mystryEndImg from "../../Assets/Images/mysteryEndImg (3).jpeg";
+import sportEndImg from "../../Assets/Images/SportEndImg (2).jpeg";
+import FantEndImg from "../../Assets/Images/fantassyEndImg.jpeg";
+import { Tooltip } from "react-tooltip";
 
 function Book({ StoryAdventureDataBook, Wordexplore }) {
   const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
   const [paragraphChunks, setParagraphChunks] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [isEnd, setIsEnd] = useState(false);
+  const [theEndImg, setTheEndImg] = useState("");
+  const [wordMeaning , setWordMeaning] = useState("")
+  console.log(Wordexplore);
 
   const BoldWordsStories = Wordexplore?.data?.map((world, index) => {
     return world.Storytitle;
   });
 
+  console.log(BoldWordsStories);
+
+  useEffect(() => {
+    if (Wordexplore.endPoints === "/ScienceFictionStories") {
+      setTheEndImg(EndSciImg);
+    } else if (Wordexplore.endPoints === "/HistoryStories") {
+      setTheEndImg(historyEndImg);
+    } else if (Wordexplore.endPoints === "/AdventureStories") {
+      setTheEndImg(AdvEndImg);
+    } else if (Wordexplore.endPoints === "/MysteryStories") {
+      setTheEndImg(mystryEndImg);
+    } else if (Wordexplore.endPoints === "/SportsStories") {
+      setTheEndImg(sportEndImg);
+    } else if (Wordexplore.endPoints === "/FantasyStories") {
+      setTheEndImg(FantEndImg);
+    } else {
+      setTheEndImg("");
+    }
+  }, [Wordexplore]);
+
   const makeBold = (word) => {
-    if (BoldWordsStories.includes(word)) {
+    const cleanWord = (str) =>
+      str.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").toLowerCase();
+
+    const lowerCaseWord = cleanWord(word);
+    const lowerCaseBoldWords = BoldWordsStories.map((story) =>
+      cleanWord(story)
+    );
+
+    if (lowerCaseBoldWords.includes(lowerCaseWord)) {
+       const matchingData = Wordexplore?.data?.find(
+         (ele ,index) => cleanWord(ele.Storytitle) === lowerCaseWord
+       );
+
+       console.log(matchingData)
       return (
-        <span className="font-bold inline font-Poetsen" key={word}>
+        <span
+          className="font-bold inline font-Poetsen"
+          key={word}
+          id="clickable"
+        >
+          <Tooltip anchorSelect="#clickable">
+            <button>{matchingData.Storyttext}</button>
+          </Tooltip>
           {word}
         </span>
       );
     }
     return word + " ";
   };
+
+  // const makeBold = (word) => {
+  //   const cleanWord = (str) =>
+  //     str.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").toLowerCase();
+
+  //   const lowerCaseWord = cleanWord(word);
+  //   const lowerCaseBoldWords = BoldWordsStories.map((story) =>
+  //     cleanWord(story)
+  //   );
+
+  //   if (lowerCaseBoldWords.includes(lowerCaseWord)) {
+  //     const matchingData = Wordexplore?.data?.find(
+  //       (ele) => cleanWord(ele.Storytitle) === lowerCaseWord
+  //       setWordMeaning(ele.Storyitext)
+  //     );
+  //     console.log(matchingData);
+  //     return (
+  //       <span
+  //         className="font-bold inline font-Poetsen"
+  //         key={word}
+  //         data-tip
+  //         data-for={lowerCaseWord}
+  //         id="clickable"
+  //       >
+  //         {word}
+  //         {matchingData && (
+  //           <Tooltip
+  //             id={lowerCaseWord}
+  //             place="top"
+  //             type="dark"
+  //             effect="solid"
+  //             anchorSelect="#clickable"
+  //           >
+  //             <div>
+  //               <p>
+                  
+  //                 {wordMeaning}
+  //               </p>{" "}
+  //               {/* Adjust based on your data structure */}
+  //             </div>
+  //           </Tooltip>
+  //         )}
+  //       </span>
+  //     );
+  //   }
+  //   return word + " ";
+  // };
 
   useEffect(() => {
     if (StoryAdventureDataBook && StoryAdventureDataBook.content) {
@@ -72,6 +169,7 @@ function Book({ StoryAdventureDataBook, Wordexplore }) {
             ) : (
               paragraphChunks[currentChunkIndex]?.map((para, index) => {
                 const paraArr = para.split(" ");
+
                 return (
                   <p className="text-left" key={index}>
                     {paraArr.map((word, i) => (
@@ -89,11 +187,7 @@ function Book({ StoryAdventureDataBook, Wordexplore }) {
         <div className="storyimg">
           <div className="differentStoryImg">
             {isEnd ? (
-              <img
-                src={`https://ik.imagekit.io/xhdikl4j8/end-image.jpg`}
-                alt="End"
-                className="DataimgStory"
-              />
+              <img src={theEndImg} alt="End" className="DataimgStory" />
             ) : (
               imageUrls[currentChunkIndex]?.map((img, index) => (
                 <img
@@ -147,7 +241,6 @@ function Book({ StoryAdventureDataBook, Wordexplore }) {
 }
 
 export default Book;
-
 
 // import React, { useState, useEffect } from "react";
 // import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";

@@ -14,7 +14,7 @@ function DashBoard() {
   const [correctQuenstions, setCorrectQuestion] = useState(0);
   const [wrongQuestions, setWrongQuestions] = useState(0);
   const [totalWordPractice , setTotalWordPracticed] = useState(0)
-  console.log(user.Children_Name)
+  console.log(user?.Children_Name)
 
   const AllDashboardData = useSelector(
     (state) => state.LeaderBoard.DashboardData

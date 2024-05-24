@@ -61,6 +61,7 @@ const BrainQuest = ({ questionsData }) => {
   const [showScore, setShowScore] = useState(false);
   const BrainyUpdatedData = useSelector((state) => state.BrainQuest.data);
   console.log("--------- BrainyUpdatedData -------- " , BrainyUpdatedData);
+  console.log(questionsData);
   // console.log(BrainyUpdatedData[0].Question_id)
   // let arrayWithSelectedAns = null;
   const [arrayWithSelectedAns , setarrayWithSelectedAns]  = useState(null)
@@ -95,10 +96,12 @@ const BrainQuest = ({ questionsData }) => {
   // }, []);
 
   // console.log(questions);
-  if (!questions || questions.length === 0) {
+  if (!questions || questions?.length === 0) {
+    console.log(questions);
     return (
       <div className="text-white font-bold">
-        You have Already Submitted the BrainQuestData for this Story.{" "}
+        {/* You have Already Submitted the BrainQuestData for this Story. */}
+         No questions available for this Story.{" "}
       </div>
     );
   }

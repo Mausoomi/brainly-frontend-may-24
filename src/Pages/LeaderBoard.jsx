@@ -35,7 +35,7 @@ function LeaderBoard() {
         {sortedLeaderBoardData.map((item, id) => (
           <div key={id} className={` ${id % 2 === 0 ? "bg-[#FAFAFA1A]" : "bgTrans"} ${id === sortedLeaderBoardData.length - 1 ? "lastIndex" : "tableTextBox "} ${id === 0 ? "rounded-t-[10px]" : ""} `}>
             <p className='text-white font-Nunito tb-text w-[20%]'>{id + 1}</p>
-            <p className='text-white font-Nunito tb-text w-[70%]'>{item.StudentId.Children_Name}</p>
+            <p className='text-white font-Nunito tb-text w-[70%]'>{item?.StudentId?.Children_Name}</p>
             <p className='font-Nunito tb-text w-[30%] scoreText'>{item.QuestionsCorrectCount}/{item.TotalquestionsattemptedCount}</p>
           </div>
         ))}
